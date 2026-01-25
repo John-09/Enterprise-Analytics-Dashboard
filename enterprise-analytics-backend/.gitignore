@@ -1,0 +1,66 @@
+####################################
+# OS / Editor
+####################################
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.log
+
+####################################
+# Environment files
+####################################
+.env
+.env.*
+!.env.example
+
+####################################
+# Node / Package managers
+####################################
+node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+####################################
+# Build outputs
+####################################
+dist/
+build/
+
+####################################
+# TypeScript
+####################################
+*.tsbuildinfo
+
+####################################
+# TypeORM / Backend
+####################################
+.ormconfig
+typeorm.config.*
+logs/
+backend.log
+
+####################################
+# Database / Local data
+####################################
+*.sqlite
+*.sqlite3
+*.db
+
+####################################
+# Coverage / Reports
+####################################
+coverage/
+.nyc_output/
+
+####################################
+# Cache / Temp
+####################################
+.cache/
+tmp/
+temp/

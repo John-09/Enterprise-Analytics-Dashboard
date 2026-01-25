@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    /* ===============================
+       Runtime & Module System
+    =============================== */
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
+    /* ===============================
+       Project Structure
+    =============================== */
+    "rootDir": "src",
+    "outDir": "dist",
+
+    /* ===============================
+       TypeScript Strictness
+    =============================== */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    /* ===============================
+       ESM Safety (IMPORTANT)
+    =============================== */
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+
+    /* ===============================
+       Interop & Node
+    =============================== */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* ===============================
+       Decorators (TypeORM REQUIRED)
+    =============================== */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    /* ===============================
+       Output & DX
+    =============================== */
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+
+    /* ===============================
+       Types
+    =============================== */
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
