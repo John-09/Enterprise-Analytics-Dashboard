@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
+  Index,
 } from "typeorm";
 import { Customer } from "./Customer.js";
 
@@ -14,6 +15,8 @@ export enum OrderStatus {
   CANCELLED = "cancelled",
 }
 
+@Index(["createdAt"])
+@Index(["status"])
 @Entity("orders")
 export class Order {
   @PrimaryGeneratedColumn()
