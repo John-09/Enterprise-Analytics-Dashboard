@@ -8,7 +8,12 @@ interface Props {
 export default function KPICard({ title, value }: Props) {
   return (
     <Card className="shadow-sm">
-      <Statistic title={title} value={value} />
+      <Statistic
+        title={title}
+        value={value}
+        valueStyle={{ fontWeight: 600 }}
+        formatter={(val) => new Intl.NumberFormat("en-IN").format(Number(val))}
+      />
     </Card>
   );
 }

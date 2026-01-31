@@ -8,7 +8,7 @@ export const useOrders = (params: {
   search?: string;
 }) => {
   return useQuery({
-    queryKey: ["orders", params],
+    queryKey: ["orders", params.page, params.limit, params.status, params.search],
     queryFn: () => fetchOrders(params),
     keepPreviousData: true, // IMPORTANT
   });

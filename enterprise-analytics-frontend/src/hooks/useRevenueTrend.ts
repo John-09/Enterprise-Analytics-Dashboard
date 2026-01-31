@@ -6,7 +6,7 @@ export const useRevenueTrend = (
   endDate?: string
 ) => {
   return useQuery({
-    queryKey: ["revenue-trend", startDate, endDate],
+    queryKey: ["revenue", startDate || "", endDate || ""],
     queryFn: () => fetchRevenueTrend({ startDate, endDate }),
   });
 };

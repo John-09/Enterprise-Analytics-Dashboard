@@ -1,6 +1,8 @@
 import { Table, Input, Select } from "antd";
 import { useState } from "react";
 import { useOrders } from "../hooks/useOrders";
+import { useDebounce } from "../hooks/useDebounce";
+import dayjs from "dayjs";
 
 const { Search } = Input;
 
@@ -9,11 +11,13 @@ export default function OrdersTable() {
   const [status, setStatus] = useState<string>();
   const [search, setSearch] = useState("");
 
+  const debouncedSearch = useDebounce(search);
+
   const { data, isLoading } = useOrders({
     page,
     limit: 10,
     status,
-    search,
+    search: debouncedSearch,
   });
 
   const columns = [
@@ -24,7 +28,11 @@ export default function OrdersTable() {
     },
     { title: "Amount", dataIndex: "amount" },
     { title: "Status", dataIndex: "status" },
-    { title: "Date", dataIndex: "createdAt" },
+    {
+      title: "Date",
+      dataIndex: "createdAt",
+      render: (value: string) => dayjs(value).format("DD MMM YYYY, HH:mm"),
+    },
   ];
 
   return (
@@ -59,12 +67,13 @@ export default function OrdersTable() {
       <Table
         loading={isLoading}
         columns={columns}
-        dataSource={data?.data}
+        dataSource={data?.data || []}
         rowKey="id"
         pagination={{
           current: page,
           pageSize: 10,
-          total: data?.total,
+          total: data?.total || 0,
+          showSizeChanger: false,
           onChange: (p) => setPage(p),
         }}
       />
