@@ -7,7 +7,7 @@ import {
   JoinColumn,
   Index,
 } from "typeorm";
-import { Customer } from "./Customer.js";
+import type { Customer } from "./Customer.js";
 
 export enum OrderStatus {
   PENDING = "pending",
@@ -39,8 +39,10 @@ export class Order {
   })
   status!: OrderStatus;
 
-  @ManyToOne(() => Customer, (customer) => customer.orders)
-  @JoinColumn({ name: "customerId" })
+  @ManyToOne(
+    () => import("./Customer.js").then(m => m.Customer),
+    (customer) => customer.orders
+  )
   customer!: Customer;
 
   @CreateDateColumn({ type: "timestamptz" })

@@ -7,7 +7,7 @@ export const getOrders = async ({
   status,
   search,
 }: any) => {
-  const repo = AppDataSource.getRepository(Order);
+  const repo = AppDataSource().getRepository(Order);
 
   const qb = repo
     .createQueryBuilder("order")

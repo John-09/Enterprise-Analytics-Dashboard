@@ -7,7 +7,7 @@ import { comparePassword } from "../utils/hash.js";
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const userRepo = AppDataSource.getRepository(User);
+  const userRepo = AppDataSource().getRepository(User);
   const user = await userRepo.findOne({ where: { email } });
 
   if (!user) {

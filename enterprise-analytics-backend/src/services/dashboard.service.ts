@@ -3,7 +3,7 @@ import { Order } from "../entities/Order.js";
 
 // key performance indicator logic
 export const getKPIs = async (startDate?: string, endDate?: string) => {
-  const repo = AppDataSource.getRepository(Order);
+  const repo = AppDataSource().getRepository(Order);
 
   const qb = repo
     .createQueryBuilder("order")
@@ -36,7 +36,7 @@ export const getRevenueTrend = async (
   startDate?: string,
   endDate?: string
 ) => {
-  const repo = AppDataSource.getRepository(Order);
+  const repo = AppDataSource().getRepository(Order);
 
   const qb = repo
     .createQueryBuilder("order")

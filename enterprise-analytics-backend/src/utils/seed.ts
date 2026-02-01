@@ -8,11 +8,11 @@ import { Order } from "../entities/Order.js";
 import { hashPassword } from "./hash.js";
 
 const seed = async () => {
-  await AppDataSource.initialize();
+  await AppDataSource().initialize();
 
-  const userRepo = AppDataSource.getRepository(User);
-  const customerRepo = AppDataSource.getRepository(Customer);
-  const orderRepo = AppDataSource.getRepository(Order);
+  const userRepo = AppDataSource().getRepository(User);
+  const customerRepo = AppDataSource().getRepository(Customer);
+  const orderRepo = AppDataSource().getRepository(Order);
 
   // Admin user
   const admin = userRepo.create({
