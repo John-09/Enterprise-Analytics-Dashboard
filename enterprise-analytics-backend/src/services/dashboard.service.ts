@@ -9,16 +9,16 @@ export const getKPIs = async (startDate?: string, endDate?: string) => {
     .createQueryBuilder("order")
     .select("COUNT(order.id)", "totalOrders")
     .addSelect("SUM(order.amount)", "totalRevenue")
-    .addSelect(
-      "COUNT(DISTINCT order.customerId)",
-      "activeCustomers"
-    );
+    .addSelect("COUNT(DISTINCT order.customerId)", "activeCustomers");
 
   if (startDate && endDate) {
-    qb.where("order.createdAt BETWEEN :start AND :end", {
-      start: startDate,
-      end: endDate,
-    });
+    qb.where(
+      "order.createdAt >= :start AND order.createdAt < :end",
+      {
+        start: `${startDate}T00:00:00.000Z`,
+        end: `${endDate}T23:59:59.999Z`,
+      }
+    );
   }
 
   const result = await qb.getRawOne();
@@ -29,6 +29,7 @@ export const getKPIs = async (startDate?: string, endDate?: string) => {
     activeCustomers: Number(result.activeCustomers),
   };
 };
+
 
 //Trend Logic
 export const getRevenueTrend = async (
@@ -46,10 +47,13 @@ export const getRevenueTrend = async (
     .orderBy("DATE(order.createdAt)", "ASC");
 
   if (startDate && endDate) {
-    qb.andWhere("order.createdAt BETWEEN :start AND :end", {
-      start: startDate,
-      end: endDate,
-    });
+    qb.andWhere(
+      "order.createdAt >= :start AND order.createdAt < :end",
+      {
+        start: `${startDate}T00:00:00.000Z`,
+        end: `${endDate}T23:59:59.999Z`,
+      }
+    );
   }
 
   const data = await qb.getRawMany();
@@ -59,4 +63,5 @@ export const getRevenueTrend = async (
     revenue: Number(row.revenue),
   }));
 };
+
 
