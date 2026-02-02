@@ -2,7 +2,8 @@ import axios from "axios";
 import store from "../store";
 
 const api = axios.create({
-  baseURL: "https://enterprise-analytics-backend.vercel.app",
+  // baseURL: "https://enterprise-analytics-backend.vercel.app",
+  baseURL: "http://localhost:4000",
 });
 
 api.interceptors.request.use((config) => {

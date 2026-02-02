@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   OneToMany,
 } from "typeorm";
-import type { Order } from "./Order.js";
+import  { Order } from "./Order.js";
 
 @Entity("customers")
 export class Customer {
@@ -21,9 +21,6 @@ export class Customer {
   @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
 
-  @OneToMany(
-    () => import("./Order.js").then(m => m.Order),
-    (order) => order.customer
-  )
+  @OneToMany(() => Order, (order) => order.customer)
   orders!: Order[];
 }

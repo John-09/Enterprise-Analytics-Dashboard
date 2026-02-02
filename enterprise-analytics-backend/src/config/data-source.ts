@@ -19,9 +19,6 @@
 
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "../entities/User.js";
-import { Customer } from "../entities/Customer.js";
-import { Order } from "../entities/Order.js";
 let dataSource: DataSource | null = null;
 
 export const initializeDB = async () => {
@@ -35,10 +32,14 @@ export const initializeDB = async () => {
 
   dataSource = new DataSource({
     type: "postgres",
+  // host: process.env.DB_HOST || "127.0.0.1",
+  // port: Number(process.env.DB_PORT || 5433),
+  // username: process.env.DB_USER,
+  // password: process.env.DB_PASSWORD,
     url: process.env.DATABASE_URL,
     synchronize: true, // dev only
     logging: false,
-    entities: [User, Customer, Order],
+    entities: ["src/entities/**/*.js"],
     extra: {
       options: "-c timezone=UTC",
     },
