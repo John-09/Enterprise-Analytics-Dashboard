@@ -30,6 +30,7 @@ import authRoutes from "./routes/auth.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import orderRoutes from "./routes/order.routes.js";
 import { errorHandler } from "./middleware/error.middleware.js";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 
@@ -63,6 +64,7 @@ app.use(express.json());
 await initializeDB();
 
 app.use("/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/orders", orderRoutes);
 

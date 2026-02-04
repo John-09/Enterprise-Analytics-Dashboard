@@ -1,12 +1,36 @@
 import { Layout, Menu } from "antd";
-import { DashboardOutlined, TableOutlined } from "@ant-design/icons";
+import {
+  DashboardOutlined,
+  TableOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRole } from "@/hooks/useRole";
 
 const { Sider } = Layout;
 
 export default function Sidebar({ collapsed }: { collapsed: boolean }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const role = useRole();
+
+  const items = [
+    {
+      key: "/",
+      icon: <DashboardOutlined />,
+      label: "Dashboard",
+    },
+    {
+      key: "/orders",
+      icon: <TableOutlined />,
+      label: "Orders",
+    },
+    role === "admin" && {
+      key: "/users",
+      icon: <UserOutlined />,
+      label: "Users",
+    },
+  ].filter(Boolean);
 
   return (
     <Sider
@@ -27,18 +51,7 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
         selectedKeys={[location.pathname]}
         className="border-none"
         onClick={(e) => navigate(e.key)}
-        items={[
-          {
-            key: "/",
-            icon: <DashboardOutlined />,
-            label: "Dashboard",
-          },
-          {
-            key: "/orders",
-            icon: <TableOutlined />,
-            label: "Orders",
-          },
-        ]}
+        items={items}
       />
     </Sider>
   );
