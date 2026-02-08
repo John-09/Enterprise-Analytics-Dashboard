@@ -23,8 +23,8 @@ export default function RevenueChart({ data, loading }: Props) {
             <Spin />
           </div>
         ) : !loading && data.length < 2 ? (
-          <div className="flex justify-center items-center text-gray-400">
-            Not enough data to show trend
+          <div className="flex justify-center items-center h-[300px] text-gray-400">
+            No data available for selected date range
           </div>
         ) : (
           <div style={{ height: 320 }}>

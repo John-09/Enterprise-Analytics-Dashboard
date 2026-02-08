@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../store";
 import { logout } from "../store/authSlice";
 import { toggleTheme } from "../store/uiSlice";
+import NotificationBell from "../components/NotificationBell";
 
 const { Header } = Layout;
 
@@ -39,6 +40,9 @@ export default function Navbar({
 
       {/* Right */}
       <div className="flex items-center gap-4">
+        {/* Notifications */}
+        <NotificationBell />
+
         {/* Theme toggle */}
         <Switch
           checked={theme === "dark"}

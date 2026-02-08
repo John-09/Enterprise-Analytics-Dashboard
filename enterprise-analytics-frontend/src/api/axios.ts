@@ -7,13 +7,28 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-    console.log(config,'Test');
-    
+  console.log(config, 'Test');
+
   const token = store.getState().auth.token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error?.response?.status;
+
+    // Auto logout on expired/invalid token
+    if (status === 401) {
+      localStorage.clear();
+      window.location.href = "/login";
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default api;

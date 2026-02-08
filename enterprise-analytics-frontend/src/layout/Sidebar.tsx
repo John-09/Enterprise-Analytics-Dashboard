@@ -3,6 +3,7 @@ import {
   DashboardOutlined,
   TableOutlined,
   UserOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRole } from "@/hooks/useRole";
@@ -24,6 +25,11 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
       key: "/orders",
       icon: <TableOutlined />,
       label: "Orders",
+    },
+    {
+      key: "/customers",
+      icon: <TeamOutlined />,
+      label: "Customers",
     },
     role === "admin" && {
       key: "/users",

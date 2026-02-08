@@ -2,12 +2,12 @@
 
 // export const AppDataSource = new DataSource({
 //   type: "postgres",
-//   // host: process.env.DB_HOST || "127.0.0.1",
-//   // port: Number(process.env.DB_PORT || 5433),
-//   // username: process.env.DB_USER,
-//   // password: process.env.DB_PASSWORD,
-//   // database: process.env.DB_NAME,
-//   url: process.env.DATABASE_URL,
+//   host: process.env.DB_HOST || "127.0.0.1",
+//   port: Number(process.env.DB_PORT || 5433),
+//   username: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_NAME,
+//   // url: process.env.DATABASE_URL,
 //   synchronize: true, // demo only
 //   logging: false,
 //   entities: ["src/entities/**/*.ts"],
@@ -32,14 +32,15 @@ export const initializeDB = async () => {
 
   dataSource = new DataSource({
     type: "postgres",
-  // host: process.env.DB_HOST || "127.0.0.1",
-  // port: Number(process.env.DB_PORT || 5433),
-  // username: process.env.DB_USER,
-  // password: process.env.DB_PASSWORD,
-    url: process.env.DATABASE_URL,
+    host: process.env.DB_HOST || "127.0.0.1",
+    port: Number(process.env.DB_PORT || 5433),
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    // url: process.env.DATABASE_URL,
     synchronize: true, // dev only
     logging: false,
-    entities: ["src/entities/**/*.js"],
+    entities: ["src/entities/**/*.ts"],
     extra: {
       options: "-c timezone=UTC",
     },

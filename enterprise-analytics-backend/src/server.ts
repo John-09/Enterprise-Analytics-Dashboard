@@ -2,22 +2,21 @@ import "dotenv/config";          // 🔑 MUST be first
 import "reflect-metadata";
 
 import app from "./app.js";
-import { AppDataSource } from "./config/data-source.js";
+import { initializeDB } from "./config/data-source.js";
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
-AppDataSource().initialize()
-  .then(async () => {
-    console.log("📦 Database connected");
-
-    const tz = await AppDataSource().query("SHOW timezone");
-    console.log("DB timezone from app:", tz);
+(async () => {
+  try {
+    await initializeDB(); // ✅ called once only
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
-  })
-  .catch((error) => {
-    console.error("❌ DB connection failed", error);
-  });
+  } catch (err) {
+    console.error("❌ Failed to start server:", err);
+    process.exit(1);
+  }
+})();
+
 

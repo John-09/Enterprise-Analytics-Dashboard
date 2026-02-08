@@ -1,6 +1,6 @@
 import { AppDataSource } from "../config/data-source.js";
 import { User } from "../entities/User.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export const createUser = async (req, res) => {
   const { name, email, role } = req.body;
@@ -24,6 +24,7 @@ export const createUser = async (req, res) => {
     email,
     role,
     password: hashed,
+    mustChangePassword: true,
   });
 
   await repo.save(user);

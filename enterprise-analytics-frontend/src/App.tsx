@@ -2,9 +2,12 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
+import Customers from "./pages/Customers";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleProtectedRoute from "./routes/RoleProtectedRoute";
 import AppLayout from "./layout/AppLayout";
+import Orders from "./pages/Orders";
+import ChangePassword from "./pages/ChangePassword";
 
 export default function App() {
   return (
@@ -19,6 +22,37 @@ export default function App() {
           <ProtectedRoute>
             <AppLayout>
               <Dashboard />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/change-password"
+        element={
+          <ProtectedRoute>
+            <ChangePassword />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Orders />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/customers"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Customers />
             </AppLayout>
           </ProtectedRoute>
         }

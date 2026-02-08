@@ -4,7 +4,8 @@
 // import dashboardRoutes from "./routes/dashboard.routes.js";
 // import orderRoutes from "./routes/order.routes.js";
 // import { errorHandler } from "./middleware/error.middleware.js";
- 
+// import userRoutes from "./routes/user.routes.js";
+
 
 
 // const app = express();
@@ -15,6 +16,7 @@
 
 
 // app.use("/auth", authRoutes);
+// app.use("/users", userRoutes);
 // app.use("/dashboard", dashboardRoutes);
 // app.use("/orders", orderRoutes);
 
@@ -29,33 +31,36 @@ import { initializeDB } from "./config/data-source.js";
 import authRoutes from "./routes/auth.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import orderRoutes from "./routes/order.routes.js";
-import { errorHandler } from "./middleware/error.middleware.js";
 import userRoutes from "./routes/user.routes.js";
+import customerRoutes from "./routes/customer.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
+import preferenceRoutes from "./routes/preference.routes.js";
+import { errorHandler } from "./middleware/error.middleware.js";
 
 const app = express();
 
 const allowedOrigins = [
-    "http://localhost:5173",           // local frontend
-    "https://enterprise-analytics-frontend.vercel.app" // deployed frontend
-  ];
-  
-  app.use(
-    cors({
-      origin: (origin, callback) => {
-        // allow requests with no origin (Postman, curl)
-        if (!origin) return callback(null, true);
-  
-        if (allowedOrigins.includes(origin)) {
-          return callback(null, true);
-        }
-  
-        return callback(new Error("Not allowed by CORS"));
-      },
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
-      credentials: true,
-    })
-  );
+  "http://localhost:5173",           // local frontend
+  "https://enterprise-analytics-frontend.vercel.app" // deployed frontend
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow requests with no origin (Postman, curl)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 app.use(cors({ origin: "*" }));
 app.use(express.json());
@@ -64,9 +69,12 @@ app.use(express.json());
 await initializeDB();
 
 app.use("/auth", authRoutes);
-app.use("/api/users", userRoutes);
+app.use("/users", userRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/orders", orderRoutes);
+app.use("/customers", customerRoutes);
+app.use("/notifications", notificationRoutes);
+app.use("/preferences", preferenceRoutes);
 
 app.use(errorHandler);
 

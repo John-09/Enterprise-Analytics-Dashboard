@@ -76,6 +76,11 @@ export default function OrdersTable() {
           showSizeChanger: false,
           onChange: (p) => setPage(p),
         }}
+        locale={{
+          emptyText: isLoading
+            ? "Failed to load orders"
+            : "No orders found for selected filters",
+        }}
       />
     </div>
   );

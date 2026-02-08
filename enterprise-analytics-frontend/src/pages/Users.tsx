@@ -59,6 +59,9 @@ export default function Users() {
             },
             { title: "Created", dataIndex: "createdAt" },
           ]}
+          locale={{
+            emptyText: "No users available",
+          }}
         />
       </Card>
 

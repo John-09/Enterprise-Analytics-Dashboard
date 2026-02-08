@@ -11,7 +11,11 @@ export default function Login() {
   const onFinish = async (values: { email: string; password: string }) => {
     const data = await login(values);
     dispatch(loginSuccess(data));
-    navigate("/");
+    if (data.user.mustChangePassword) {
+      navigate("/change-password");
+    } else {
+      navigate("/");
+    }
   };
   return (
     <div className="h-screen flex items-center justify-center">
