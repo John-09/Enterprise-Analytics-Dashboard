@@ -1,10 +1,13 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
+import { roleMiddleware } from "../middleware/role.middleware.js";
 import {
     listNotifications,
     getUnreadNotificationCount,
     markNotificationAsRead,
     markAllNotificationsAsRead,
+    sendNotification,
+    seedNotifications,
 } from "../controllers/notification.controller.js";
 
 const router = Router();
@@ -23,5 +26,11 @@ router.patch("/read-all", markAllNotificationsAsRead);
 
 // PATCH /notifications/:id/read - Mark single as read
 router.patch("/:id/read", markNotificationAsRead);
+
+// POST /notifications/send - Admin: Send notification to a specific user
+router.post("/send", roleMiddleware(["admin"]), sendNotification);
+
+// POST /notifications/seed - Seed test notifications for current user
+router.post("/seed", seedNotifications);
 
 export default router;

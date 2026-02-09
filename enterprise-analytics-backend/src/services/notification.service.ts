@@ -1,5 +1,6 @@
 import { AppDataSource } from "../config/data-source.js";
 import { Notification, NotificationType } from "../entities/Notification.js";
+import { User, UserRole } from "../entities/User.js";
 
 // Get user notifications
 export const getUserNotifications = async (
@@ -82,15 +83,92 @@ export const createNotification = async (
     return repo.save(notification);
 };
 
-// Create notification for all users with specific role
+// Create notification for all users with specific role(s)
 export const createNotificationForRole = async (
-    role: string,
+    roles: UserRole[],
     title: string,
     message: string,
     type: NotificationType = NotificationType.INFO
 ): Promise<number> => {
-    // This would require a join with users table
-    // Implementation depends on business requirements
-    // For now, return 0
-    return 0;
+    const userRepo = AppDataSource().getRepository(User);
+    const notificationRepo = AppDataSource().getRepository(Notification);
+
+    // Find all users with the specified roles
+    const users = await userRepo
+        .createQueryBuilder("user")
+        .where("user.role IN (:...roles)", { roles })
+        .getMany();
+
+    if (users.length === 0) return 0;
+
+    // Create notifications for each user
+    const notifications = users.map((user) =>
+        notificationRepo.create({
+            userId: user.id,
+            title,
+            message,
+            type,
+            isRead: false,
+        })
+    );
+
+    await notificationRepo.save(notifications);
+    return notifications.length;
+};
+
+// High-value order notification (called when order exceeds threshold)
+export const notifyHighValueOrder = async (
+    orderAmount: number,
+    customerName: string,
+    orderId: number
+): Promise<number> => {
+    const HIGH_VALUE_THRESHOLD = 500; // Orders above $500
+
+    if (orderAmount < HIGH_VALUE_THRESHOLD) return 0;
+
+    return createNotificationForRole(
+        [UserRole.ADMIN, UserRole.MANAGER],
+        "🎉 High-Value Order Received!",
+        `New order #${orderId} from ${customerName} worth $${orderAmount.toFixed(2)}`,
+        NotificationType.SUCCESS
+    );
+};
+
+// Seed test notifications for a user
+export const seedTestNotifications = async (userId: number): Promise<number> => {
+    const testNotifications = [
+        {
+            title: "Welcome to the Dashboard!",
+            message: "You can manage orders, customers, and analytics from here.",
+            type: NotificationType.INFO,
+        },
+        {
+            title: "🎉 New High-Value Order!",
+            message: "Customer John Doe placed an order worth $1,250.00",
+            type: NotificationType.SUCCESS,
+        },
+        {
+            title: "⚠️ Low Inventory Alert",
+            message: "Product SKU-001 is running low on stock (5 remaining)",
+            type: NotificationType.WARNING,
+        },
+        {
+            title: "Monthly Report Ready",
+            message: "Your December 2025 sales report is now available for download.",
+            type: NotificationType.INFO,
+        },
+        {
+            title: "Payment Failed",
+            message: "Order #4521 payment was declined. Please contact the customer.",
+            type: NotificationType.ERROR,
+        },
+    ];
+
+    const repo = AppDataSource().getRepository(Notification);
+    const notifications = testNotifications.map((n) =>
+        repo.create({ userId, ...n, isRead: false })
+    );
+
+    await repo.save(notifications);
+    return notifications.length;
 };

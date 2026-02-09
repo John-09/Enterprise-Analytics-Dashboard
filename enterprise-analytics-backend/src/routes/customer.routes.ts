@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
+import { roleMiddleware } from "../middleware/role.middleware.js";
 import {
     listCustomers,
     listRegions,
@@ -10,8 +11,9 @@ import {
 
 const router = Router();
 
-// All routes require authentication
+// All routes require authentication + admin/manager role
 router.use(authMiddleware);
+router.use(roleMiddleware(["admin", "manager"]));
 
 // GET /customers - List all customers
 router.get("/", listCustomers);

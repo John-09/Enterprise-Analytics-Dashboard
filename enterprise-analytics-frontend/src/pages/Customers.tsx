@@ -47,12 +47,12 @@ export default function Customers() {
   const { data: regions } = useRegions();
 
   const columns: ColumnsType<Customer> = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      width: 80,
-    },
+  {
+    title: "S.no",
+    key: "serial",
+    width: 80,
+    render: (_: any, __: Customer, index: number) => index + 1,
+  },
     {
       title: "Name",
       dataIndex: "name",

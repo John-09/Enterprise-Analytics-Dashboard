@@ -1,4 +1,5 @@
 import { Layout, Menu } from "antd";
+import type { MenuProps } from "antd";
 import {
   DashboardOutlined,
   TableOutlined,
@@ -15,7 +16,7 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
   const location = useLocation();
   const role = useRole();
 
-  const items = [
+  const items: MenuProps["items"] = [
     {
       key: "/",
       icon: <DashboardOutlined />,
@@ -26,17 +27,27 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
       icon: <TableOutlined />,
       label: "Orders",
     },
-    {
-      key: "/customers",
-      icon: <TeamOutlined />,
-      label: "Customers",
-    },
-    role === "admin" && {
-      key: "/users",
-      icon: <UserOutlined />,
-      label: "Users",
-    },
-  ].filter(Boolean);
+    // Customers visible only to admin/manager
+    ...(role !== "viewer"
+      ? [
+          {
+            key: "/customers",
+            icon: <TeamOutlined />,
+            label: "Customers",
+          },
+        ]
+      : []),
+    // Users visible only to admin
+    ...(role === "admin"
+      ? [
+          {
+            key: "/users",
+            icon: <UserOutlined />,
+            label: "Users",
+          },
+        ]
+      : []),
+  ];
 
   return (
     <Sider

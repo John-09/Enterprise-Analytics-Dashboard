@@ -1,7 +1,7 @@
-import type{ Request, Response } from "express";
-import { getOrders } from "../services/order.service.js";
+import type { Request, Response } from "express";
+import { getOrders, createOrder } from "../services/order.service.js";
 import { AppDataSource } from "../config/data-source.js";
-import { Order } from "../entities/Order.js";
+import { Order, OrderStatus } from "../entities/Order.js";
 
 export const listOrders = async (req: Request, res: Response) => {
   const { page, limit, status, search } = req.query;
@@ -16,8 +16,34 @@ export const listOrders = async (req: Request, res: Response) => {
   res.json(result);
 };
 
+// POST /orders - Create a new order
+export const createOrderHandler = async (req: Request, res: Response) => {
+  try {
+    const { customerId, amount, status } = req.body;
 
-export const exportOrders = async (req:Request, res:Response) => {
+    if (!customerId || !amount) {
+      res.status(400).json({ message: "customerId and amount are required" });
+      return;
+    }
+
+    const validStatuses = Object.values(OrderStatus);
+    const orderStatus = validStatuses.includes(status)
+      ? status
+      : OrderStatus.PENDING;
+
+    const order = await createOrder(Number(customerId), Number(amount), orderStatus);
+
+    res.status(201).json({
+      success: true,
+      order,
+      message: amount >= 500 ? "High-value order! Admins notified." : undefined,
+    });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const exportOrders = async (req: Request, res: Response) => {
   const { startDate, endDate, status, search } = req.query;
 
   const repo = AppDataSource().getRepository(Order);
@@ -72,5 +98,3 @@ export const exportOrders = async (req:Request, res:Response) => {
 
   res.send(csv);
 };
-
-

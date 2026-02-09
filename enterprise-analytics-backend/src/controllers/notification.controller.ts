@@ -1,11 +1,14 @@
-import type { Request, Response } from "express";
+import type { Response } from "express";
 import type { AuthRequest } from "../middleware/auth.middleware.js";
 import {
     getUserNotifications,
     getUnreadCount,
     markAsRead,
     markAllAsRead,
+    createNotification,
+    seedTestNotifications,
 } from "../services/notification.service.js";
+import { NotificationType } from "../entities/Notification.js";
 
 // GET /notifications - Get current user's notifications
 export const listNotifications = async (req: AuthRequest, res: Response) => {
@@ -59,4 +62,36 @@ export const markAllNotificationsAsRead = async (
     const count = await markAllAsRead(userId);
 
     res.json({ success: true, markedCount: count });
+};
+
+// POST /notifications/send - Admin: Send notification to a specific user
+export const sendNotification = async (req: AuthRequest, res: Response) => {
+    const { userId, title, message, type } = req.body;
+
+    if (!userId || !title || !message) {
+        res.status(400).json({ message: "userId, title, and message are required" });
+        return;
+    }
+
+    const validTypes = ["info", "success", "warning", "error"];
+    const notificationType = validTypes.includes(type)
+        ? (type as NotificationType)
+        : NotificationType.INFO;
+
+    const notification = await createNotification(
+        Number(userId),
+        title,
+        message,
+        notificationType
+    );
+
+    res.status(201).json({ success: true, notification });
+};
+
+// POST /notifications/seed - Seed test notifications for current user
+export const seedNotifications = async (req: AuthRequest, res: Response) => {
+    const userId = req.user!.id;
+    const count = await seedTestNotifications(userId);
+
+    res.json({ success: true, seededCount: count });
 };

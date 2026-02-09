@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Customers from "./pages/Customers";
+import AccessDenied from "./pages/AccessDenied";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleProtectedRoute from "./routes/RoleProtectedRoute";
 import AppLayout from "./layout/AppLayout";
@@ -14,6 +15,18 @@ export default function App() {
     <Routes>
       {/* Public */}
       <Route path="/login" element={<Login />} />
+
+      {/* Access Denied */}
+      <Route
+        path="/access-denied"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <AccessDenied />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
 
       {/* Protected App */}
       <Route
@@ -40,20 +53,25 @@ export default function App() {
         path="/orders"
         element={
           <ProtectedRoute>
-            <AppLayout>
-              <Orders />
-            </AppLayout>
+            <RoleProtectedRoute allowed={["admin", "manager"]}>
+              <AppLayout>
+                <Orders />
+              </AppLayout>
+            </RoleProtectedRoute>
           </ProtectedRoute>
         }
       />
 
+      {/* Manager/Admin only */}
       <Route
         path="/customers"
         element={
           <ProtectedRoute>
-            <AppLayout>
-              <Customers />
-            </AppLayout>
+            <RoleProtectedRoute allowed={["admin", "manager"]}>
+              <AppLayout>
+                <Customers />
+              </AppLayout>
+            </RoleProtectedRoute>
           </ProtectedRoute>
         }
       />

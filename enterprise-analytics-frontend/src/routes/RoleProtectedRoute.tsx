@@ -10,8 +10,10 @@ export default function RoleProtectedRoute({
   children: JSX.Element;
 }) {
   const role = useRole();
+  console.log(role,'dhagjhddasjdhajshg');
+  
   if (!allowed.includes(role)) {
-    return <Navigate to="/" />;
+    return <Navigate to="/access-denied" replace />;
   }
   return children;
 }
