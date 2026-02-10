@@ -16,9 +16,11 @@ const { Header } = Layout;
 export default function Navbar({
   collapsed,
   onToggle,
+  isMobile = false,
 }: {
   collapsed: boolean;
   onToggle: () => void;
+  isMobile?: boolean;
 }) {
   const dispatch = useDispatch();
   const { user } = useSelector((s: RootState) => s.auth);
@@ -26,10 +28,8 @@ export default function Navbar({
 
   return (
     <Header
-      className="flex items-center justify-between px-4 border-b border-gray-200 dark:border-slate-700"
-      style={{
-        background: "white",
-      }}
+      className="flex items-center justify-between border-b border-gray-200 dark:border-slate-700"
+      style={{ padding: isMobile ? "0 12px" : "0 16px" }}
     >
       {/* Left */}
       <Button
@@ -39,7 +39,7 @@ export default function Navbar({
       />
 
       {/* Right */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         {/* Notifications */}
         <NotificationBell />
 
@@ -49,6 +49,7 @@ export default function Navbar({
           onChange={() => dispatch(toggleTheme())}
           checkedChildren="🌙"
           unCheckedChildren="☀️"
+          size={isMobile ? "small" : "default"}
         />
 
         {/* User dropdown */}
@@ -65,13 +66,15 @@ export default function Navbar({
           }}
         >
           <div className="flex items-center gap-2 cursor-pointer">
-            <Avatar icon={<UserOutlined />} />
-            <div className="leading-tight">
-              <div className="text-sm font-medium">Hi, {user?.name}</div>
-              <div className="text-xs text-gray-500 capitalize">
-                {user?.role}
+            <Avatar icon={<UserOutlined />} size={isMobile ? "small" : "default"} />
+            {!isMobile && (
+              <div className="leading-tight">
+                <div className="text-sm font-medium">Hi, {user?.name}</div>
+                <div className="text-xs text-gray-500 capitalize">
+                  {user?.role}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </Dropdown>
       </div>

@@ -122,14 +122,14 @@ export const notifyHighValueOrder = async (
     customerName: string,
     orderId: number
 ): Promise<number> => {
-    const HIGH_VALUE_THRESHOLD = 500; // Orders above $500
+    const HIGH_VALUE_THRESHOLD = 4000; // Orders above $500
 
     if (orderAmount < HIGH_VALUE_THRESHOLD) return 0;
 
     return createNotificationForRole(
         [UserRole.ADMIN, UserRole.MANAGER],
         "🎉 High-Value Order Received!",
-        `New order #${orderId} from ${customerName} worth $${orderAmount.toFixed(2)}`,
+        `New order #${orderId} from ${customerName} worth ₹${orderAmount.toFixed(2)}`,
         NotificationType.SUCCESS
     );
 };

@@ -122,7 +122,8 @@ export default function DashboardCustomizer({
         renderItem={(widget, index) => (
           <List.Item
             key={widget.id}
-            className="bg-gray-50 mb-2 rounded px-3"
+            className="mb-2 rounded px-3"
+            style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}
             actions={[
               <Button
                 key="up"
@@ -145,13 +146,13 @@ export default function DashboardCustomizer({
             ]}
           >
             <div className="flex items-center gap-3">
-              <HolderOutlined className="text-gray-400" />
+              <HolderOutlined style={{ color: 'var(--text-secondary)' }} />
               <Switch
                 checked={widget.visible}
                 onChange={(checked) => handleToggle(widget.id, checked)}
                 size="small"
               />
-              <span className={widget.visible ? "" : "text-gray-400"}>
+              <span style={{ color: widget.visible ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
                 {WIDGET_LABELS[widget.id] || widget.id}
               </span>
             </div>

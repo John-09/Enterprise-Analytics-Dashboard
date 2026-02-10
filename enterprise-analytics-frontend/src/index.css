@@ -1,1 +1,277 @@
 @import "tailwindcss";
+
+/* ── Dark Mode ────────────────────────────────────── */
+:root {
+  --bg-primary: #f0f2f5;
+  /* Light gray background for better contrast */
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --text-primary: #111827;
+  /* Gray-900 for sharper text */
+  --text-secondary: #4b5563;
+  /* Gray-600 */
+  --border-color: #d1d5db;
+  --sidebar-bg: #ffffff;
+}
+
+.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #1e293b;
+  --text-primary: #e5e7eb;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --sidebar-bg: #0f172a;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth transitions on theme switch */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* ── Light mode: override Ant Design defaults ───── */
+.ant-layout {
+  background: var(--bg-primary) !important;
+}
+
+.ant-layout-sider {
+  background: var(--sidebar-bg) !important;
+}
+
+.ant-layout-header {
+  background: var(--bg-secondary) !important;
+}
+
+.ant-menu {
+  background: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-menu-item {
+  color: var(--text-primary) !important;
+}
+
+/* Dark mode overrides for Ant Design components */
+.dark .ant-layout {
+  background: var(--bg-primary) !important;
+}
+
+.dark .ant-layout-sider {
+  background: var(--sidebar-bg) !important;
+}
+
+.dark .ant-layout-header {
+  background: var(--bg-secondary) !important;
+}
+
+.dark .ant-card {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .ant-table {
+  background: var(--bg-card) !important;
+}
+
+.dark .ant-table-thead>tr>th {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .ant-table-tbody>tr>td {
+  border-color: var(--border-color) !important;
+}
+
+.dark .ant-table-tbody>tr:hover>td {
+  background: rgba(59, 130, 246, 0.08) !important;
+}
+
+.dark .ant-menu {
+  background: transparent !important;
+}
+
+.dark .ant-menu-item:hover {
+  background: rgba(59, 130, 246, 0.12) !important;
+}
+
+.dark .ant-menu-item-selected {
+  background: rgba(59, 130, 246, 0.15) !important;
+}
+
+.dark .ant-modal-content {
+  background: var(--bg-card) !important;
+}
+
+.dark .ant-modal-header {
+  background: var(--bg-card) !important;
+}
+
+.dark .ant-dropdown-menu {
+  background: var(--bg-card) !important;
+}
+
+.dark .ant-input,
+.dark .ant-select-selector,
+.dark .ant-picker {
+  background: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark .ant-statistic-title {
+  color: var(--text-secondary) !important;
+}
+
+.dark .ant-statistic-content {
+  color: var(--text-primary) !important;
+}
+
+.dark .ant-badge-count {
+  box-shadow: 0 0 0 2px var(--bg-secondary) !important;
+}
+
+/* Date Picker Dropdown (dark mode) */
+.dark .ant-picker-dropdown .ant-picker-panel-container {
+  background: var(--bg-card) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-panel {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-header {
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-header button {
+  color: var(--text-secondary) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-content th {
+  color: var(--text-secondary) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-cell {
+  color: var(--text-secondary) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-cell-in-view {
+  color: var(--text-primary) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-cell:hover .ant-picker-cell-inner {
+  background: rgba(59, 130, 246, 0.15) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-cell-in-range::before {
+  background: rgba(22, 119, 255, 0.15) !important;
+}
+
+.dark .ant-picker-dropdown .ant-picker-footer {
+  border-color: var(--border-color) !important;
+}
+
+/* List Items (Customizer modal) */
+.dark .ant-list-item {
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark .ant-modal-footer {
+  border-color: var(--border-color) !important;
+}
+
+.dark .ant-modal-close {
+  color: var(--text-secondary) !important;
+}
+
+.dark .ant-btn-default {
+  background: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark .ant-btn-text {
+  color: var(--text-primary) !important;
+}
+
+/* ── Animated Counters ─────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Staggered card animations */
+.kpi-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.kpi-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.kpi-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.kpi-card:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+/* ── Mobile Responsive ───────────────────────────── */
+@media (max-width: 767px) {
+
+  /* Make tables horizontally scrollable */
+  .ant-table-wrapper {
+    overflow-x: auto;
+  }
+
+  /* Compact card padding */
+  .ant-card-body {
+    padding: 12px !important;
+  }
+
+  /* Full-width date picker on mobile */
+  .ant-picker-range {
+    width: 100% !important;
+  }
+
+  /* Compact statistic values */
+  .ant-statistic-content-value {
+    font-size: 20px !important;
+  }
+
+  /* Stack comparison widget values */
+  .ant-statistic-title {
+    font-size: 12px !important;
+  }
+
+  /* Reduce header height */
+  .ant-layout-header {
+    height: 48px !important;
+    line-height: 48px !important;
+  }
+}

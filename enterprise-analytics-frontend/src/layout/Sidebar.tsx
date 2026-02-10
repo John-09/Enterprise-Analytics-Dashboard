@@ -11,7 +11,13 @@ import { useRole } from "@/hooks/useRole";
 
 const { Sider } = Layout;
 
-export default function Sidebar({ collapsed }: { collapsed: boolean }) {
+export default function Sidebar({
+  collapsed,
+  isMobile = false,
+}: {
+  collapsed: boolean;
+  isMobile?: boolean;
+}) {
   const navigate = useNavigate();
   const location = useLocation();
   const role = useRole();
@@ -55,8 +61,20 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
       collapsed={collapsed}
       trigger={null}
       width={220}
-      style={{ background: "#ffffff" }}
+      collapsedWidth={isMobile ? 0 : 80}
       className="border-r border-gray-200 dark:border-slate-700"
+      style={
+        isMobile
+          ? {
+              position: "fixed",
+              left: 0,
+              top: 0,
+              bottom: 0,
+              zIndex: 50,
+              transition: "all 0.2s ease",
+            }
+          : undefined
+      }
     >
       {/* Logo */}
       <div className="h-16 flex items-center justify-center text-lg font-semibold text-blue-600 dark:text-blue-400">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider, useSelector } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,6 +13,20 @@ const queryClient = new QueryClient();
 
 function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const theme = useSelector((s: RootState) => s.ui.theme);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    // Add transition class briefly for smooth switching
+    root.classList.add("theme-transition");
+    const timer = setTimeout(() => root.classList.remove("theme-transition"), 400);
+    return () => clearTimeout(timer);
+  }, [theme]);
+
   return (
     <ConfigProvider theme={theme === "dark" ? darkTheme : lightTheme}>
       {children}

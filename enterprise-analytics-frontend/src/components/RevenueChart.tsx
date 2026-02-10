@@ -6,7 +6,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Card, Spin } from "antd";
+import { Card, Skeleton } from "antd";
 import dayjs from "dayjs";
 
 interface Props {
@@ -19,9 +19,7 @@ export default function RevenueChart({ data, loading }: Props) {
     <>
       <Card title="Revenue Trend" className="mt-6">
         {loading ? (
-          <div className="flex justify-center py-10">
-            <Spin />
-          </div>
+          <Skeleton active paragraph={{ rows: 6 }} />
         ) : !loading && data.length < 2 ? (
           <div className="flex justify-center items-center h-[300px] text-gray-400">
             No data available for selected date range
